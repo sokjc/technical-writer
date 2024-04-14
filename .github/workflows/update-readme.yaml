@@ -1,4 +1,4 @@
-name: Update README
+name: README Update Automation
 
 on:
   pull_request:
@@ -6,12 +6,23 @@ on:
 
 jobs:
   update-readme:
+    name: Update README after PR merge
     runs-on: ubuntu-latest
     if: github.event.pull_request.merged == true
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
 
-      - name: Update README
+    steps:
+      # Check out the repo to access its content
+      - name: Checkout Repository
+        uses: actions/checkout@v4.1.1
+
+      # Set up Node.js using the latest stable version
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '20'
+
+      # Placeholder for your README update script
+      # Replace this with actual script when ready
+      - name: Generate Updated README
         run: echo "This will run the Python script."
           
