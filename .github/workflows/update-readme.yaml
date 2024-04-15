@@ -15,14 +15,21 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4.1.1
 
-      # Set up Node.js using the latest stable version
-      - name: Setup Node.js
-        uses: actions/setup-node@v2
+      # Set up Python using the latest stable version
+      - name: Setup Python
+        uses: actions/setup-python@v3
         with:
-          node-version: '20'
+          node-version: '3.12'
 
-      # Placeholder for your README update script
-      # Replace this with actual script when ready
+      # Install Python dependencies
+      - name: Install Dependencies
+        run: 
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      # Run the Python script
       - name: Generate Updated README
-        run: echo "This will run the Python script."
+        env:
+          GH_PAT: ${{ secrets.GH_PAT }}
+        run: python main.py
           
