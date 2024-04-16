@@ -34,8 +34,8 @@ def test_get_contents_of_file(owner, repo, path):
     print(response)
 
 if __name__ == '__main__':
-    owner = os.getenv('GITHUB_OWNER')
-    repo = os.getenv('GITHUB_REPO')
+    owner = os.getenv('OWNER')
+    repo = os.getenv('REPO')
     pull_request_number = '3'
     path = 'README.md'
 
