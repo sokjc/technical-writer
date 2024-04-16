@@ -31,5 +31,7 @@ jobs:
       - name: Generate Updated README
         env:
           GH_PAT: ${{ secrets.GH_PAT }}
+          OWNER: ${{ vars.OWNER }}
+          REPO: ${{ vars.REPO }}
         run: python main.py
           

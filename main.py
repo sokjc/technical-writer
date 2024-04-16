@@ -32,8 +32,8 @@ def format_data_for_openai(diffs, file_content, commit_messages):
 
 def main():
     # Example owner, repo, and PR number - replace with dynamic values as necessary
-    owner = os.getenv('GITHUB_OWNER')
-    repo = os.getenv('GITHUB_REPO')
+    owner = os.getenv('OWNER')
+    repo = os.getenv('REPO')
     pull_request_number = 3
 
     # Fetch README content, PR diffs, and commit messages
