@@ -1,2 +1,5 @@
 # Environment variables
 .env
+
+# Compiled source
+__pycache__/
