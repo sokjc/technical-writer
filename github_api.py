@@ -79,3 +79,75 @@ def get_contents_of_file(owner, repo, path, ref=None):
         print(f"No 'content' key in content for file: {path}. Status: {content.get('status')}.")
 
     return content 
+
+def put_readme_contents(owner, repo, readme_contents, commit_message, sha):
+    """ Create a PR with the updated README that was based on revised content from previously merged PR."""
+    headers = {
+        'Authorization': f'token {GITHUB_TOKEN}',
+        'Accept': 'application/vnd.github.v3+json'
+    }
+
+    session = requests.Session()
+    session.headers.update(headers)
+
+    # Step 1: Create a new branch
+    # Get the commit SHA from the previous merged PR
+    default_branch_url = f'https://api.github.com/repos/{owner}/{repo}/git/ref/heads/main'
+    response = session.get(default_branch_url)
+    response.raise_for_status()
+    latest_commit_sha = response.json()['object']['sha']
+
+    # Create new branch
+    new_branch = f'update-readme-{latest_commit_sha[:7]}'  # Create a new branch based on the commit SHA
+    new_branch_url = f'https://api.github.com/repos/{owner}/{repo}/git/refs'
+    new_branch_data = {
+        'ref': f'refs/heads/{new_branch}',
+        'sha': latest_commit_sha
+    }
+    response = session.post(new_branch_url, json=new_branch_data)
+    try:
+        response.raise_for_status()
+    except requests.exceptions.HTTPError as e:
+        print(f"HTTP error occurred: {e.response.status_code} - {e.response.reason} - {e.response.text}")
+        raise
+    except requests.exceptions.HTTPError as e:
+        print(f"Request exception: {e}")
+        raise
+
+    # Step 2: Update the README on the new branch
+    update_url = f'https://api.github.com/repos/{owner}/{repo}/contents/README.md'
+    update_date = {
+        'message': commit_message,
+        'content': base64.b64encode(readme_contents.encode('utf-8')).decode('utf-8'),
+        'sha': sha,
+        'branch': new_branch
+    }
+    response = session.put(update_url, json=update_date)
+    try:
+        response.raise_for_status()
+    except requests.exceptions.HTTPError as e:
+        print(f"HTTP error occurred: {e.response.status_code} - {e.response.reason} - {e.response.text}")
+        raise
+    except requests.exceptions.HTTPError as e:
+        print(f"Request exception: {e}")
+        raise
+
+    # Step 3: Create a pull request
+    pr_url = f'https://api.github.com/repos/{owner}/{repo}/pulls'
+    pr_data = {
+        'title': 'Update README based on PR changes',
+        'head': new_branch,
+        'base': 'main',
+        'body': 'This PR updates the README based on the latest code changes from the previously merged PR.'
+    }
+    response = session.post(pr_url, json=pr_data)
+    try:
+        response.raise_for_status()
+    except requests.exceptions.HTTPError as e:
+        print(f"HTTP error occurred: {e.response.status_code} - {e.response.reason} - {e.response.text}")
+        raise
+    except requests.exceptions.HTTPError as e:
+        print(f"Request exception: {e}")
+        raise
+
+    return response.json() # Return the response JSON if the request was successful
