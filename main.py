@@ -74,14 +74,14 @@ def main():
     updated_readme = call_openai(prompt)
 
     # For testing purposes
-    print(updated_readme)
+    # print(updated_readme)
 
-    # commit_message = "Proposed README update based on recent code changes."
-    # try:
-    #     pr_response = put_readme_contents(owner, repo, updated_readme, commit_message, sha)
-    #     print("README updated successfully.")
-    # except Exception as e:
-    #     print(f"Failed to update README: {e}")
+    commit_message = "Proposed README update based on recent code changes."
+    try:
+        pr_response = put_readme_contents(owner, repo, updated_readme, commit_message, sha)
+        print("README updated successfully.")
+    except Exception as e:
+        print(f"Failed to update README: {e}")
 
     ####################################
     # Langchain implementation
