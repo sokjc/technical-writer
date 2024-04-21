@@ -13,13 +13,13 @@ jobs:
     steps:
       # Check out the repo to access its content
       - name: Checkout Repository
-        uses: actions/checkout@v4.1.1
+        uses: actions/checkout@v4
 
       # Set up Python using the latest stable version
       - name: Setup Python
         uses: actions/setup-python@v3
         with:
-          node-version: '3.12'
+          python-version: '3.12'
 
       # Install Python dependencies
       - name: Install Dependencies
@@ -34,4 +34,9 @@ jobs:
           OWNER: ${{ vars.OWNER }}
           REPO: ${{ vars.REPO }}
         run: python main.py
+
+      # Additional step to enable debugging, helps in troublshooting
+      - name: Enable Debug Logging
+        run: |
+          echo "::set-env name=ACTIONS_STEP_DEBUG::true"  # Enables debug logging for more detailed output
           

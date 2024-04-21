@@ -22,7 +22,14 @@ def make_github_request(endpoint, params=None):
         return response.json() # Return the response as JSON if the request was successful
     else:
         # Handle errors
-        response.raise_for_status()
+        try:
+            response.raise_for_status()
+        except requests.exceptions.HTTPError as e:
+            print(f"HTTP error occurred: {e.response.status_code} - {e.response.reason} - {e.response.text}")
+            raise
+        except requests.exceptions.HTTPError as e:
+            print(f"Request exception: {e}")
+            raise
 
 def list_pull_requests(owner, repo):
     """ List all pull requests for the specified repository. """
