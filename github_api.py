@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Environment variables to store GitHub token
-GITHUB_TOKEN = os.getenv('GITHUB_PAT')
+GITHUB_TOKEN = os.getenv('GITHUB_TOKEN')
 
 def make_github_request(endpoint, params=None):
     """ Make a GET request to the specified GitHub API endpoint. """
