@@ -12,7 +12,7 @@ GITHUB_TOKEN = os.getenv('GITHUB_TOKEN')
 def make_github_request(endpoint, params=None):
     """ Make a GET request to the specified GitHub API endpoint. """
     headers = {
-        'Authorization': f'token {GITHUB_TOKEN}',
+        'Authorization': f'Bearer {GITHUB_TOKEN}',
         'Accept': 'application/vnd.github.v3+json',
     }
     base_url = 'https://api.github.com'
