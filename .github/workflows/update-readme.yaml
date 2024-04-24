@@ -37,7 +37,7 @@ jobs:
         run: python main.py
 
       # Additional step to enable debugging, helps in troublshooting
-      - name: Enable Debug Logging
-        run: |
-          echo "::set-env name=ACTIONS_STEP_DEBUG::true"  # Enables debug logging for more detailed output
+      # - name: Enable Debug Logging
+      #   run: |
+      #     echo "::set-env name=ACTIONS_STEP_DEBUG::true"  # Enables debug logging for more detailed output
           
