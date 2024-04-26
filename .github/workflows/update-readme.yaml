@@ -27,6 +27,15 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      # Extract PR Number and Commit SHA from the GitHub event context
+      - name: Get PR Info
+        id: pr_info
+        run: |
+          pr_num=$(jq -r '.pull_request.number' "$GITHUB_EVENT_PATH")
+          commit_sha=$(jq -r '.pull_request.merge_commit_sha' "$GITHUB_EVENT_PATH")
+          echo "::set-output name=pull_request_number::$pr_num"
+          echo "::set-output name=commit_sha::$commit_sha"
+
       # Run the Python script
       - name: Generate Updated README
         env:
@@ -34,10 +43,12 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           OWNER: ${{ vars.OWNER }}
           REPO: ${{ vars.REPO }}
+          PR_NUMBER: ${{ steps.pr_info.outputs.pull_request_number }}
+          COMMIT_SHA: ${{ steps.pr_info.outputs.commit_sha }}
         run: python main.py
 
-      # Additional step to enable debugging, helps in troublshooting
-      # - name: Enable Debug Logging
-      #   run: |
-      #     echo "::set-env name=ACTIONS_STEP_DEBUG::true"  # Enables debug logging for more detailed output
+      Additional step to enable debugging, helps in troublshooting
+      - name: Enable Debug Logging
+        run: |
+          echo "ACTIONS_STEP_DEBUG::true" >> $GITHUB_ENV
           
