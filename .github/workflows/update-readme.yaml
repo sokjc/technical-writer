@@ -47,7 +47,7 @@ jobs:
           COMMIT_SHA: ${{ steps.pr_info.outputs.commit_sha }}
         run: python main.py
 
-      Additional step to enable debugging, helps in troublshooting
+      # Additional step to enable debugging, helps in troublshooting
       - name: Enable Debug Logging
         run: |
           echo "ACTIONS_STEP_DEBUG::true" >> $GITHUB_ENV
