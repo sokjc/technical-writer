@@ -43,8 +43,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           OWNER: ${{ vars.OWNER }}
           REPO: ${{ vars.REPO }}
-          PR_NUMBER: ${{ steps.pr_info.outputs.pull_request_number }}
-          COMMIT_SHA: ${{ steps.pr_info.outputs.commit_sha }}
+          PR_NUMBER: ${{ env.pull_request_number }}
+          COMMIT_SHA: ${{ env.commit_sha }}
         run: python main.py
 
       # Additional step to enable debugging, helps in troublshooting
