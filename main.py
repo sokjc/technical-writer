@@ -14,7 +14,7 @@ def main():
     repo = g.get_repo(repo_path)
 
     # Fetch README content (assuming README.md)
-    readme_content = repo.get_contents("README.md").decoded_content.decode('utf-8')
+    readme_content = repo.get_contents("README.md")
     
     # print(readme_content)
     # Fetch pull request by number
@@ -39,8 +39,7 @@ def main():
     updated_readme = call_openai(prompt)
 
     # Create PR for Updated PR
-    update_readme_and_create_pr(repo, updated_readme, readme_content)
+    update_readme_and_create_pr(repo, updated_readme, readme_content.sha)
 
 if __name__ == '__main__':
     main()
-    

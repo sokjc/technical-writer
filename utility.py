@@ -12,6 +12,9 @@ def format_data_for_openai(diffs, readme_content, commit_messages):
     # Combine all commit messages
     commit_messages = '\n'.join(commit_messages) + '\n\n'
 
+    # Decode the README content
+    readme_content = base64.b64decode(readme_content.content).decode('utf-8')
+
     # Construct the prompt with clear instructions for the LLM.
     prompt = (
         "Please review the following code changes and commit messages from a GitHub pull request:\n"
@@ -46,7 +49,7 @@ def call_openai(prompt):
     except Exception as e:
         print(f"Error making OpenAI API call: {e}")
 
-def update_readme_and_create_pr(repo, updated_readme, readme_content):
+def update_readme_and_create_pr(repo, updated_readme, readme_sha):
     """Submit Updated README content as a PR in new branch."""
     commit_message = "Proposed README update based on recent code changes."
 
@@ -60,7 +63,7 @@ def update_readme_and_create_pr(repo, updated_readme, readme_content):
     updated_readme = base64.b64encode(updated_readme.encode('utf-8')).decode('utf-8')
 
     # Update the README on the new branch
-    repo.update_file("README.md", commit_message, updated_readme, readme_content.sha, branch=new_branch_name)
+    repo.update_file("README.md", commit_message, updated_readme, readme_sha, branch=new_branch_name)
 
     # Create a pull request    
     pr_title = "Update README based on recent changes"
