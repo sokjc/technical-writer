@@ -50,5 +50,5 @@ jobs:
       # Additional step to enable debugging, helps in troublshooting
       - name: Enable Debug Logging
         run: |
-          echo "ACTIONS_STEP_DEBUG::true" >> $GITHUB_ENV
+          echo "ACTIONS_STEP_DEBUG=true" >> $GITHUB_ENV
           
