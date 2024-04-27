@@ -77,8 +77,8 @@ def main():
     # Get the owner, repo name, and PR number from the environment variables
     owner = os.getenv('OWNER')
     repo_name = os.getenv('REPO')
-    pull_request_number = os.getenv('PR_NUMBER')
-
+    pull_request_number = int(os.getenv('PR_NUMBER'))
+    
     # Get the repo object
     repo = g.get_repo(f"{owner}/{repo_name}")
 
@@ -102,13 +102,13 @@ def main():
     commit_messages = [commit.commit.message for commit in pull_request.get_commits()]
 
     # Format data for OpenAI prompt
-    prompt = format_data_for_openai(pull_request_diffs, readme_content, commit_messages)
+    # prompt = format_data_for_openai(pull_request_diffs, readme_content, commit_messages)
 
     # Call OpenAI to generate the updated README content
-    updated_readme = call_openai(prompt)
+    # updated_readme = call_openai(prompt)
 
     # Create PR for Updated PR
-    update_readme_and_create_pr(repo, updated_readme, readme_content)
+    # update_readme_and_create_pr(repo, updated_readme, readme_content)
 
 if __name__ == '__main__':
     main()
