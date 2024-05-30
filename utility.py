@@ -57,6 +57,7 @@ def update_readme_and_create_pr(repo, updated_readme, readme_sha):
     commit_sha = os.getenv('COMMIT_SHA')
     main_branch = repo.get_branch("main")
     new_branch_name = f"update-readme-{commit_sha[:7]}"
+    # May not need to assign this to a variable
     new_branch = repo.create_git_ref(ref=f"refs/heads/{new_branch_name}", sha=main_branch.commit.sha)
 
     # Update the README on the new branch
