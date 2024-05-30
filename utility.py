@@ -63,7 +63,8 @@ def update_readme_and_create_pr(repo, updated_readme, readme_sha):
     # Update the README on the new branch
     repo.update_file("README.md", commit_message, updated_readme, readme_sha, branch=new_branch_name)
 
-    # Create a pull request    
+    # Create a pull request 
+    # Adding in silly note   
     pr_title = "Update README based on recent changes"
     pr_body = "This PR proposes an update to the README based on recent code changes from the previous pull request."
     pull_request = repo.create_pull(title=pr_title, body=pr_body, head=new_branch_name, base="main")
